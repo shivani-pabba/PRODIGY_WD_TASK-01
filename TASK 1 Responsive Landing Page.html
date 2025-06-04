@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Frosty Delight - Ice Cream Heaven</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Quicksand', sans-serif;
+    }
+    body {
+      background: linear-gradient(to right, #00c9ff, #92fe9d);
+      color: #333;
+      scroll-behavior: smooth;
+      line-height: 1.6;
+    }
+    header {
+      background-color: #fff;
+      border-bottom: 5px solid #ff69b4;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 10000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex: 1;
+    }
+    nav a {
+      text-decoration: none;
+      font-weight: 600;
+      color: #ff1493;
+      font-size: 1.1rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+    nav a:hover {
+      background-color: #ffb6c1;
+      color: #8b005d;
+    }
+    header h1 {
+      font-size: 3rem;
+      color: #ff1493;
+      margin: 0 1rem;
+      white-space: nowrap;
+    }
+    header p {
+      position: absolute;
+      bottom: 0.1rem;
+      width: 100%;
+      text-align: center;
+      font-size: 1rem;
+      color: #d63384;
+    }
+     /* Cart icon container */
+   #cart-icon {
+      position: absolute;
+      right: 2rem;
+      top: 30%;
+      transform: translateY(-20%);
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      fill: #ff1493;
+      transition: fill 0.3s ease;
+    }
+    #cart-icon:hover {
+      fill: #8b005d;
+    }
+    #cart-count {
+      position: absolute;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-60%);
+      background: #ff1493;
+      color: white;
+      font-size: 0.75rem;
+      padding: 2px 6px; 
+      border-radius: 50%;
+      font-weight: 700;
+      pointer-events: none;
+      user-select: none;
+      display: none;
+    }
+
+    section {
+      max-width: 1100px;
+      margin: 3rem auto 2rem;
+      background: #fff0f5;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    #home {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 60vh;
+      text-align: center;
+      background: url('c:\Users\hi\Desktop\task 1\background 1.jpgrr') no-repeat center/cover;
+      color: #fff;
+      border-radius: 15px;
+      box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.4);
+    }
+    #home h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    }
+    #home p {
+      font-size: 1.5rem;
+      max-width: 600px;
+      text-shadow: 0 1px 5px rgba(0,0,0,0.7);
+    }
+    #flavours h2,
+    #about h2,
+    #contact h2 {
+      color: #d63384;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 1rem 0;
+    }
+    .card {
+      background-color: #fff;
+      border: 2px solid #ffb6c1;
+      border-radius: 15px;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+    .card h3 {
+      margin-bottom: 0.5rem;
+      color: #d63384;
+    }
+    .card p.price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .card p.desc {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 0.8rem;
+      flex-grow: 1;
+    }
+    .rating {
+      color: #ff69b4;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+      user-select: none;
+    }
+    .tag {
+      position: absolute;
+      background: #ff1493;
+      color: white;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 0 10px 10px 0;
+      top: 0;
+      left: 0;
+      font-size: 0.8rem;
+      user-select: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    #about {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+      justify-content: center;
+    }
+    #about img {
+      max-width: 400px;
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    #about div {
+      max-width: 600px;
+    }
+    #about p {
+      font-size: 1.1rem;
+      color: #555;
+      line-height: 1.5;
+    }
+    #contact form {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    #contact label {
+      font-weight: 600;
+      color: #d63384;
+    }
+    #contact input,
+    #contact textarea {
+      padding: 0.7rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      resize: none;
+    }
+    #contact button {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 0.8rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #contact button:hover {
+      background-color: #e05597;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem 2rem;
+      color: #d63384;
+      font-weight: 600;
+      border-top: 2px solid #ff69b4;
+      margin-top: 3rem;
+    }
+    /* Cart modal */
+    #cart-modal {
+      display: none;
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      width: 320px;
+      max-height: 70vh;
+      background: white;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      border-radius: 15px;
+      overflow-y: auto;
+      z-index: 100000;
+      padding: 1rem;
+      font-size: 0.95rem;
+    }
+    #cart-modal h3 {
+      margin-bottom: 1rem;
+      color: #d63384;
+      text-align: center;
+    }
+    #cart-modal ul {
+      list-style: none;
+      margin-bottom: 1rem;
+      max-height: 350px;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+    #cart-modal ul li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f0f0f0;
+      align-items: center;
+    }
+    #cart-modal ul li button {
+      background: #ff1493;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      padding: 0.2rem 0.5rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: background-color 0.2s ease;
+    }
+    #cart-modal ul li button:hover {
+      background: #a30e63;
+    }
+    #cart-total {
+      font-weight: 700;
+      text-align: right;
+      margin-bottom: 1rem;
+      color: #d63384;
+    }
+    #cart-close {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 1.3rem;
+      color: #d63384;
+      font-weight: 700;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+    <header>
+
+ <h1> Frosty Delight</h1> 
+ <p>cool,creamy treats to brighten your day!</p>
+
+    </header>
+
+    <header>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#flavours">Flavours</a>
+      <a href="#about">About Us</a>
+      <a href="#contact">Contact Us</a>
+  <!-- Cart Icon -->
+    <svg id="cart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-label="Shopping Cart" role="img" tabindex="0">
+      <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2zM7.82 14l-.44-2H17V8H7l-.94-4H1v2h3.6l3.59 7.59-1.35 2.44c-.19.35-.3.74-.3 1.17 0 1.1.9 2 2 2h12v-2H7.82z"/>
+    </svg>
+    <div id="cart-count">0</div>
+    </nav>
+
+  </header>
+  <section id="home">
+    <h2>Welcome to Frosty Delight</h2>
+    <p>Your favorite ice cream destination with the tastiest flavors made fresh daily.</p>
+  </section>
+
+  <section id="flavours">
+    <h2>Our Flavours</h2>
+    <input
+      type="text"
+      id="flavourSearch"
+      placeholder="Search flavours..."
+      style="width: 100%; padding: 0.7rem; border-radius: 10px; border: 1px solid #ccc; font-size: 1rem; margin-bottom: 1rem;"
+    />
+    <div class="products">
+      <div class="card" data-name="Vanilla Dream" data-price="120">
+        <img src="images/vanilla.jpg" alt="Vanilla Dream" />
+        <h3>Vanilla Dream</h3>
+        <p class="price">₹120</p>
+        <p class="desc">Classic creamy vanilla flavor.</p>
+        <div class="rating">★★★★☆</div>
+        <button class="add-cart">+ Add to Cart</button>
+      </div>
+
+      <div class="card" data-name="Chocolate Bliss" data-price="190" data-tag="Bestseller">
+        <div class="tag">Bestseller</div>
+        <img src="images/chocolate.jpg" alt="Chocolate Bliss" />
+        <h3>Chocolate Bliss</h3>
+        <p class="price">₹190</p>
+        <p class="desc">Rich and smooth chocolate delight.</p>
+        <div class="rating">★★★★★</div>
+        <button class="add-cart">+ Add to Cart</button>
+      </div>
+
+      <div class="card" data-name="Strawberry Swirl" data-price="130">
+        <img src="images/strawberry.jpg" alt="Strawberry Swirl" />
+        <h3>Strawberry Swirl</h3>
+        <p class="price">₹130</p>
+        <p class="desc">Fresh strawberry goodness.</p>
+        <div class="rating">★★★★☆</div>
+        <button class="add-cart">+ Add to Cart</button>
+      </div>
+
+      <div class="card" data-name="Mango Tango" data-price="115" data-tag="Seasonal">
+        <div class="tag">Seasonal</div>
+        <img src="images/mango.jpg" alt="Mango Tango" />
+        <h3>Mango Tango</h3>
+        <p class="price">₹115</p>
+        <p class="desc">Tropical mango flavor.</p>
+        <div class="rating">★★★★★</div>
+        <button class="add-cart">+ Add to Cart</button>
+      </div>
+
+      <div class="card" data-name="Pistachio Paradise" data-price="200">
+        <img src="images/pistachio.jpg" alt="Pistachio Paradise" />
+        <h3>Pistachio Paradise</h3>
+        <p class="price">₹200</p>
+        <p class="desc">Nutty and smooth pistachio flavor.</p>
+        <div class="rating">★★★★☆</div>
+        <button class="add-cart">+ Add to Cart</button>
+      </div>
+
+      <div class="card" data-name="Butterscotch Delight" data-price="175" data-tag="New">
+        <div class="tag">New</div>
+        <img src="images/butterscotch.jpg" alt="Butterscotch Delight" />
+        <h3>Butterscotch Delight</h3>
+        <p class="price">₹175</p>
+        <p class="desc">Sweet buttery caramel goodness.</p>
+        <div class="rating">★★★★☆</div>
+        <button class="add-cart">+ Add to Cart</button>
+      </div>
+
+      <div class="card" data-name="Coffee Crunch" data-price="220">
+        <img src="images/coffee.jpg" alt="Coffee Crunch" />
+        <h3>Coffee Crunch</h3>
+        <p class="price">₹220</p>
+        <p class="desc">Bold coffee flavor with crunchy bits.</p>
+        <div class="rating">★★★☆☆</div>
+        <button class="add-cart">+ Add to Cart</button>
+      </div>
+
+      <div class="card" data-name="Pineapple Passion" data-price="150" data-tag="Seasonal">
+        <div class="tag">Seasonal</div>
+        <img src="images/pineapple.jpg" alt="Pineapple Passion" />
+        <h3>Pineapple Passion</h3>
+        <p class="price">₹150</p>
+        <p class="desc">Tart and sweet pineapple burst.</p>
+        <div class="rating">★★★★☆</div>
+        <button class="add-cart">+ Add to Cart</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>About Us</h2>
+    <img src="images/about us.jpg" alt="Ice Cream Shop" />
+    <div>
+      <p>
+        At Frosty Delight, we believe in serving the freshest and most delicious ice cream made from quality ingredients. Our passion is to bring joy and smiles to every scoop!
+      </p>
+      <p>
+        From classic vanilla to exotic seasonal specials, we offer a variety of flavors to satisfy your cravings.
+      </p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <form>
+      <label for="name">Name</label>
+      <input type="text" id="name" placeholder="Your Name" required />
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="you@example.com" required />
+      <label for="message">Message</label>
+      <textarea id="message" rows="4" placeholder="Write your message here..." required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <footer>
+    &copy; 2025 Frosty Delight. All rights reserved.
+  </footer>
+
+  <!-- Cart Modal -->
+  <div id="cart-modal" aria-live="polite" aria-label="Shopping cart details">
+    <span id="cart-close" title="Close cart" role="button" tabindex="0">&times;</span>
+    <h3>Your Cart</h3>
+    <ul id="cart-items"></ul>
+    <div id="cart-total">Total: ₹0</div>
+    <button id="checkout-btn" style="background:#ff1493; color:#fff; border:none; border-radius:10px; padding:0.5rem 1rem; cursor:pointer;">Checkout</button>
+  </div>
+
+  <script>
+    // Search filter for flavours
+    const searchInput = document.getElementById('flavourSearch');
+    const cards = document.querySelectorAll('.products .card');
+
+    searchInput.addEventListener('input', e => {
+      const term = e.target.value.toLowerCase();
+      cards.forEach(card => {
+        const flavour = card.querySelector('h3').textContent.toLowerCase();
+        card.style.display = flavour.includes(term) ? '' : 'none';
+      });
+    });
+
+    // Cart state
+    const cart = {};
+
+    // Elements
+    const cartIcon = document.getElementById('cart-icon');
+    const cartCount = document.getElementById('cart-count');
+    const cartModal = document.getElementById('cart-modal');
+    const cartItemsList = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+    const cartClose = document.getElementById('cart-close');
+    const checkoutBtn = document.getElementById('checkout-btn');
+
+    // Update cart count badge
+    function updateCartCount() {
+      const count = Object.values(cart).reduce((acc, item) => acc + item.qty, 0);
+      if (count > 0) {
+        cartCount.style.display = 'block';
+        cartCount.textContent = count;
+      } else {
+        cartCount.style.display = 'none';
+      }
+    }
+
+    // Render cart items in modal
+    function renderCart() {
+      cartItemsList.innerHTML = '';
+      if (Object.keys(cart).length === 0) {
+        cartItemsList.innerHTML = '<li>Your cart is empty.</li>';
+        cartTotal.textContent = 'Total: ₹0';
+        checkoutBtn.disabled = true;
+        checkoutBtn.style.opacity = '0.5';
+        return;
+      }
+      checkoutBtn.disabled = false;
+      checkoutBtn.style.opacity = '1';
+
+      let total = 0;
+      for (const [key, item] of Object.entries(cart)) {
+        total += item.price * item.qty;
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <span>${item.name} (₹${item.price}) x ${item.qty}</span>
+          <button aria-label="Remove one ${item.name} from cart">&times;</button>
+        `;
+        const btn = li.querySelector('button');
+        btn.addEventListener('click', () => {
+          removeFromCart(key);
+        });
+        cartItemsList.appendChild(li);
+      }
+      cartTotal.textContent = 'Total: ₹' + total;
+    }
+
+    // Add item to cart
+    function addToCart(name, price) {
+      if (cart[name]) {
+        cart[name].qty += 1;
+      } else {
+        cart[name] = { name, price, qty: 1 };
+      }
+      updateCartCount();
+      renderCart();
+    }
+
+    // Remove item from cart
+    function removeFromCart(name) {
+      if (!cart[name]) return;
+      cart[name].qty -= 1;
+      if (cart[name].qty <= 0) {
+        delete cart[name];
+      }
+      updateCartCount();
+      renderCart();
+    }
+
+    // Attach event listeners to Add to Cart buttons
+    document.querySelectorAll('.add-cart').forEach(button => {
+      button.addEventListener('click', () => {
+        const card = button.closest('.card');
+        const name = card.dataset.name;
+        const price = parseInt(card.dataset.price);
+        addToCart(name, price);
+      });
+    });
+
+    // Cart icon click toggles modal
+    cartIcon.addEventListener('click', () => {
+      if (cartModal.style.display === 'block') {
+        cartModal.style.display = 'none';
+      } else {
+        cartModal.style.display = 'block';
+      }
+    });
+    cartClose.addEventListener('click', () => {
+      cartModal.style.display = 'none';
+    });
+    // Close modal on Escape key
+    window.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && cartModal.style.display === 'block') {
+        cartModal.style.display = 'none';
+      }
+    });
+
+    // Checkout button alert
+    checkoutBtn.addEventListener('click', () => {
+      if (Object.keys(cart).length === 0) {
+        alert('Your cart is empty!');
+      } else {
+        alert('Thank you for your purchase! 🛒🍦');
+        // Clear cart after checkout
+        for (const key in cart) {
+          delete cart[key];
+        }
+        updateCartCount();
+        renderCart();
+        cartModal.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
